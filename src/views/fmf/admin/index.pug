@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  section.hero.is-fullheight
+    .hero-body
+      .container.has-text-centered
+        h1.title La Radio di Biagi - Administrátorský panel
+        if session == "admin"
+          a(href="/radio/changelog") (změny)
+        else 
+          a(href="/radio/admin/guide") (návod k použití)

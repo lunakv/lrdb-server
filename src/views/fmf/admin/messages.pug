@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  section.section
+    .container
+      .columns.is-centered
+        .column.is-7
+          table.table.is-fullwidth
+            thead
+              th ID
+              th Zpráva
+              th Začátek
+              th Platnost
+              th Pomalost
+              th Smazat
+            tbody
+              each row in future
+                tr.has-text-grey
+                  td= row.MessageID
+                  td= row.Content
+                  td= format(row.Begin)
+                  td= row.Duration
+                  td= row.Multiplier
+                  td
+                    a(href="/radio/admin/delete/"+row.MessageID class="delete is-medium")
+              tr
+                each x in [1,2,3,4,5,6]
+                  td
+              each row in current
+                tr
+                  td= row.MessageID
+                  td= row.Content
+                  td= format(row.Begin)
+                  td= row.Duration
+                  td= row.Multiplier
+                  td
+              tr
+                each x in [1,2,3,4,5,6]
+                  td
+              each row in past
+                tr.has-text-grey
+                  td= row.MessageID
+                  td= row.Content
+                  td= format(row.Begin)
+                  td= row.Duration
+                  td= row.Multiplier
+                  td

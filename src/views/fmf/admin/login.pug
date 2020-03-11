@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  section.section
+    .container
+      .columns.is-centered
+        .column.is-6
+          form(action="/radio/admin/login", method="POST")
+            .field
+              label.label Uživatel
+              p.control 
+                input.input(name="name" type="text" required)
+            .field
+              label.label Heslo
+              p.control
+                input.input(name="password" type="password" required)
+            .field
+              p.help.is-danger= message
+            .field
+              .control
+                .buttons.is-right
+                  button.button.is-success(type="submit") Přihlásit

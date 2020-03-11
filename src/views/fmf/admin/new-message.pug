@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  section.section
+    .container
+      .columns.is-desktop.is-centered
+        .column.is-8
+          .has-text-danger
+            p= errors
+          form(action="/radio/admin/new-message", method="post")
+            .field 
+              label.label.has-text-danger= error
+            .field
+              label.label Zpráva
+              .control
+                input.input(name="message" type="text" required value=`${message}`)
+            if session == "admin"
+              .columns.is-desktop
+                .column.is-4
+                  label.label Začátek
+                  .field.is-grouped
+                    .control
+                      input.input(name="startdate" type="date" required value=`${date}`)
+                    .control
+                      input.input(name="starttime" type="time" required value=`${time}`)
+                .column.is-3
+                  .field
+                    label.label Doba platnosti (s)
+                    .control
+                      input.input(name="duration" type="text" required value="120")
+                .column
+                  .field
+                    label.label Zpomalovač (větší číslo - pomalejší zpráva)
+                    .control
+                      input.input(name="multiplier" type="number" required step="0.1" value="1.0")
+            .field 
+              p.label.has-text-success Ujistěte se, že všechny údaje jsou uvedené správně. Odeslané zprávy nelze měnit!
+              .buttons
+                button.button.is-primary(type="submit") Odeslat

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  section.section
+    .container
+      .columns.is-centered
+        .column.is-4
+          table.table
+            thead
+              th Token
+              th Zpráva
+              th Čas
+            tbody
+              each row in table
+                tr
+                  td= row.TokenID
+                  td= row.MessageID
+                  td= format(row.ViewTime)

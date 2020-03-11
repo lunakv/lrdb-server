@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  section.section
+    .container
+      .columns.is-desktop.is-centered
+        .column.is-4
+          label.label Jak dlouho se bude zpráva přehrávat?
+          .field.has-addons
+            .control
+              input.input(id="text" placeholder="Text zprávy")
+            .control
+              button.button.is-primary(id="run") Spočítat
+          p.help.is-info
+            | Nezapomeňte, že zpráva se přehrává dvakrát.
+          .field
+            p(id="result")
+
+block javascripts
+    script(src="/scripts/time-counter.js")

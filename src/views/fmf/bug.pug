@@ -1,0 +1,15 @@
+extends layout
+
+block content  
+  section.section
+    .container
+      .columns.is-desktop.is-centered
+        .column.is-8
+          form(action="/radio/bug", method="post")
+            .field
+              label.label Popis chyby
+              .control
+                textarea.textarea(name="report" placeholder="Popište chování chyby co nejpřesněji. Nezapomente uvést informace o svém systému.")
+            .field
+              .buttons
+                button.button.is-primary(type="submit") Odeslat

@@ -1,0 +1,51 @@
+doctype html
+html
+  head
+    title La Radio di Biagi - Admin Tool
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel='stylesheet', href='/stylesheets/bulma.min.css')
+    block favicons
+      link(rel="apple-touch-icon", sizes="180x180", href="/icons/radio/apple-touch-icon.png")
+      link(rel="icon", type="image/png", sizes="32x32", href="/icons/radio/favicon-32x32.png")
+      link(rel="icon", type="image/png", sizes="16x16", href="/icons/radio/favicon-16x16.png")
+      link(rel="manifest", href="/icons/radio/site.webmanifest")
+      link(rel="mask-icon", href="/icons/radio/safari-pinned-tab.svg", color="#2ca02c")
+      link(rel="shortcut icon", href="/icons/radio/favicon.ico")
+      meta(name="apple-mobile-web-app-title", content="La Radio")
+      meta(name="application-name", content="La Radio")
+      meta(name="msapplication-TileColor", content="#00a300")
+      meta(name="msapplication-config", content="/icons/radio/browserconfig.xml")
+      meta(name="theme-color", content="#ffffff")
+
+
+  body
+    block navbar
+      nav.navbar
+        .navbar-brand
+          a.navbar-item(href="/radio/admin") La Radio di Biagi - Admin Tool
+          if !nosession
+            .navbar-item
+              a(class="button is-light is-small" href="/radio/admin/logout") Odhlásit
+            a(role="button" class="navbar-burger" data-target="navMenu")
+              span(aria-hidden="true")
+              span(aria-hidden="true")
+              span(aria-hidden="true")
+          
+        .navbar-menu#navMenu
+          .navbar-start
+            if !nosession
+              if session == "admin"
+                .navbar-item
+                  a(href="/radio/admin/messages" class="button is-small") Přehled zpráv
+                .navbar-item
+                  a(href="/radio/admin/views" class="button is-small") Přehled zobrazení
+              .navbar-item
+                a(href="/radio/admin/new-message" class="button is-small") Nová zpráva
+              .navbar-item
+                a(href="/radio/admin/timer" class="button is-small") Časovač
+              .navbar-item
+                a(href="/radio/bug") Nahlásit chybu
+      script(src='/scripts/navbar.js')
+
+    block content
+    block javascripts

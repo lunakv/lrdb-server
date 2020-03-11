@@ -1,0 +1,15 @@
+extends layout
+
+block content  
+  section.section
+    .container
+      .columns.is-desktop.is-centered
+        .column.is-8
+          form(action="/radio/feedback", method="post")
+            .field
+              label.label Zpětná vazba
+              .control
+                textarea.textarea(name="report" placeholder="Díky za používání aplikace a podílení se na jejím vývoji.")
+            .field
+              .buttons
+                button.button.is-primary(type="submit") Odeslat

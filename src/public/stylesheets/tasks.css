@@ -1,0 +1,66 @@
+h1, h2, h3, h4, h5, h6 {
+    text-emphasis: emphasis;
+    margin: 10px;
+    font-size: 130%;
+}
+
+#content-container div:not(:empty), #content-container label{
+    border: 2px solid black;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+#content-container p, #content-container tex {
+    margin: 10px;
+}
+
+.editable {
+    border: 1px dotted gray;
+    padding: 5px;
+}
+
+tex.editable {
+    border-color: rebeccapurple;
+}
+
+#content-container textarea {
+    width: 100%;
+    padding: 15px;
+    font-family: monospace;
+    line-height: 1.5;
+    font-size: 90%;
+    max-width: 100%;
+}
+
+#content-container :not(table) textarea {
+    min-height: 15em;
+}
+
+#content-container table textarea, #content-container section > textarea, #content-container ul > textarea{
+    min-height: 4em;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+li {
+    margin-left: 20px;
+}
+
+#content-container label {
+    display: block;
+    font-family: monospace;
+}
+
+#content-container table {
+    width: 100%;
+}
+
+#content-container .hidden, #cancel-btn.hidden{
+    display: none;
+}
+
+#cancel-btn {
+    margin-top: 25px;
+}
