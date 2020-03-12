@@ -1,8 +1,8 @@
 # La Radio di Biagi - server
 
-This project contains the server side of the LRdB project.
+This project contains the server side of the LRdB project. If you haven't, you should first visit the [client repository](https://github.com/lunakv/lrdb-client) and its corresponding [Wiki](https://github.com/lunakv/lrdb-client/wiki) to find out more about the project and its goals.
 
-**Language warning**: Since the primary users of this project were czech, user documentation, log messages and page contents are in Czech.
+**Language warning** 🇨🇿: Since the primary users of this project were czech, user documentation, log messages and page contents are in Czech.
 
 ## Requirements
 - `node.js` runtime and `npm` 
