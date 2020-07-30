@@ -5,7 +5,7 @@ This project contains the server side of the LRdB project. If you haven't, you s
 **Language warning** 🇨🇿: Since the primary users of this project were czech, user documentation, log messages and page contents are in Czech.
 
 ## Deprecation notice ⚠️
-This project is no longer maintained. Some modifications may be necessary before it can be run successfully. If you intend on using this software, make sure all dependencies are up to date to protect yourself from security vulnerabilities.
+This project is no longer maintained. Some modifications may be necessary before it can be run successfully. If you intend on using this software, make sure all dependencies are up to date to protect yourself against security vulnerabilities.
 
 ## Requirements
 - `node.js` runtime and `npm` 
