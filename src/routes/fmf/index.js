@@ -4,6 +4,7 @@ var router = express.Router();
 const path = require('path');
 const mysql = require('mysql');
 const adminRouter = require('./admin');
+const dt = require('./datetime.js');
 const config = require('./config.js');
 
 const pool = mysql.createPool(config.dbOpts);
@@ -14,7 +15,7 @@ router.use('/public', express.static(path.join(__dirname, '..', '..', 'public', 
 
 router.post('/recieved', checkMagic, checkToken, function(req, res, next){
     console.log(req.body);
-    var values = [[req.body.token, req.body.message, getIsoFullDateTime()]];
+    var values = [[req.body.token, req.body.message, dt.getIsoFullDateTime()]];
     pool.query(newViewQuery, [values], function(error, results){
         if (error) throw error;
 	res.sendStatus(200);
@@ -53,7 +54,7 @@ router.post('/bug', function(req, res, next){
     var b = req.body;
     var status = "Zpráva uspěšně odeslána.";
     if (b && b.report){
-        fs.appendFile('./bugs', getIsoFullDateTime() + "\n" + b.report.toString() + "\n\n", function(err){
+        fs.appendFile('./bugs', dt.getIsoFullDateTime() + "\n" + b.report.toString() + "\n\n", function(err){
             if (err){
                 console.log(err);
                 status = "Nepodařilo se odeslat. Zkuste to znovu.";
@@ -82,7 +83,7 @@ router.post('/feedback', function(req, res, next){
     var b = req.body;
     var status = "Zpráva uspěšně odeslána.";
     if (b && b.report){
-        fs.appendFile('./feedback', getIsoFullDateTime() + "\n" + b.report.toString() + "\n\n", function(err){
+        fs.appendFile('./feedback', dt.getIsoFullDateTime() + "\n" + b.report.toString() + "\n\n", function(err){
             if (err){
                 console.log(err);
                 status = "Nepodařilo se odeslat. Zkuste to znovu.";
@@ -93,27 +94,6 @@ router.post('/feedback', function(req, res, next){
     }
     res.render('fmf/bug-sent', {status: status});
 })
-
-function getIsoDate(date){
-    var now = date ? new Date(date) : new Date();
-    var y = now.getFullYear();
-    var m = (now.getMonth() + 1).toString().padStart(2, '0');
-    var d = (now.getDate()).toString().padStart(2, '0');
-    return y + '-' + m + '-' + d;
-}
-
-function getFullTime(date){
-    var now = date ? new Date(date) : new Date();
-    var s = (now.getSeconds()).toString().padStart(2, '0');
-    var m = (now.getMinutes()).toString().padStart(2, '0');
-    var h = (now.getHours()).toString().padStart(2, '0');
-    return h + ":" + m + ":" + s
-}
-
-function getIsoFullDateTime(date){
-    datetime = getIsoDate(date) + 'T' + getFullTime(date)
-    return datetime;
-}
 
 function checkMagic(req, res, next){
     if (!req.body || req.body.magic != config.userMagic){

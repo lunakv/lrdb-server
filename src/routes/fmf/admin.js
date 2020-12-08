@@ -3,6 +3,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var admin = require('firebase-admin');
 var config = require('./config.js');
+var dt = require('./datetime.js');
 var pool = mysql.createPool(config.dbOpts);
 
 admin.initializeApp({
@@ -59,7 +60,7 @@ router.get('/logout', checkSignIn, function(req, res){
 })
 
 router.get('/new-message', checkSignIn, function(req, res, next){
-    res.render('fmf/admin/new-message', {message: "", date: getIsoDate(), time: getTime(), session: req.session.user});
+    res.render('fmf/admin/new-message', {message: "", date: dt.getIsoDate(), time: dt.getTime(), session: req.session.user});
 })
 
 router.post('/new-message', checkSignIn, function(req, res, next){
@@ -73,7 +74,7 @@ router.post('/new-message', checkSignIn, function(req, res, next){
         duration = parseInt(b.duration);
     } else {
         multiplier = 1;
-        start = getIsoFullDateTime();
+        start = dt.getIsoFullDateTime();
         duration = 120;
         b.duration = 120;
     }
@@ -91,7 +92,7 @@ router.post('/new-message', checkSignIn, function(req, res, next){
         } else {
             var begin = start;
             if (new Date(begin).valueOf() < new Date().valueOf()){
-                begin = getIsoFullDateTime();
+                begin = dt.getIsoFullDateTime();
             }
             var values = [[b.message, begin, duration, multiplier]];
             pool.query(newMsgQuery, [values], function(error, results, fields){
@@ -101,7 +102,7 @@ router.post('/new-message', checkSignIn, function(req, res, next){
         }
     } else {
         var error = "Všechna pole musí být vyplněna";
-        res.render('fmf/admin/new-message', {date: getIsoDate(), time: getTime(), error: error, session: req.session.user});
+        res.render('fmf/admin/new-message', {date: dt.getIsoDate(), time: dt.getTime(), error: error, session: req.session.user});
     }
 })
 
@@ -118,7 +119,7 @@ router.get('/messages', checkAdmin, function(req, res, next){
             pool.query(futureMsgQuery, function(error, results, fields){
                 if (error) throw error;
                 futuremsg = results;
-                res.render('fmf/admin/messages', {format: getCzDateTime, past: pastmsg, current: activemsg, future: futuremsg, session: req.session.user});
+                res.render('fmf/admin/messages', {format: dt.getCzDateTime, past: pastmsg, current: activemsg, future: futuremsg, session: req.session.user});
             })
         })
     })
@@ -127,7 +128,7 @@ router.get('/messages', checkAdmin, function(req, res, next){
 router.get('/views', checkAdmin, function(req, res, next){
     pool.query(viewsQuery, function(error, results, fields){
         if (error) throw error;
-        res.render('fmf/admin/log-views', {format: getCzDateTime, table: results, title: "La Radio admin - Zobrazení", session: req.session.user});
+        res.render('fmf/admin/log-views', {format: dt.getCzDateTime, table: results, title: "La Radio admin - Zobrazení", session: req.session.user});
     })    
 })
 
@@ -158,51 +159,6 @@ const viewsQuery = 'SELECT * FROM Viewed ORDER BY ViewTime DESC';
 const sentMsgQuery = "INSERT INTO Sent (MessageID, Time) VALUES ?";
 const deleteMsgQuery = "DELETE FROM Message WHERE MessageID = ?";
 
-function getIsoDate(date){
-    var now = date ? new Date(date) : new Date();
-    var y = now.getFullYear();
-    var m = (now.getMonth() + 1).toString().padStart(2, '0');
-    var d = (now.getDate()).toString().padStart(2, '0');
-    return y + '-' + m + '-' + d;
-}
-
-function getCzDate(date){
-    var now = date ? new Date(date) : new Date();
-    var y = now.getFullYear();
-    var m = (now.getMonth() + 1);
-    var d = (now.getDate());
-    return d + '. ' + m + '. ' + y;
-}
-
-function getTime(date){
-    var now = date ? new Date(date) : new Date();
-    var h = (now.getHours()).toString().padStart(2, '0');
-    var m = (now.getMinutes()).toString().padStart(2, '0');
-    return h + ":" + m;
-}
-
-function getIsoDateTime(date){
-    datetime = getIsoDate(date) + 'T' + getTime(date);
-    return datetime;
-}
-
-function getFullTime(date){
-    var now = date ? new Date(date) : new Date();
-    var h = (now.getHours()).toString().padStart(2, '0');
-    var m = (now.getMinutes()).toString().padStart(2, '0');
-    var s = (now.getSeconds()).toString().padStart(2, '0');
-    return h + ":" + m + ":" + s;
-}
-
-function getIsoFullDateTime(date){
-    return getIsoDate(date) + 'T' + getFullTime(date);
-}
-
-function getCzDateTime(date){
-    datetime = getCzDate(date) + ' ' + getTime(date);
-    return datetime;
-}
-
 function validMessage(string){
     return /^[a-zA-Z0-9 ,.]+$/.test(string);
 }
@@ -225,7 +181,7 @@ function sendMessage(id, message, duration, multiplier){
       .then((response) => {
         // Response is a message ID string.
         console.log('Successfully sent message:', response);
-        var values = [[id, getIsoDateTime()]];
+        var values = [[id, dt.getIsoDateTime()()]];
         pool.query(sentMsgQuery, [values], function(error, results, fields){
             if (error) throw error;
         })
